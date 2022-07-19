@@ -1,3 +1,24 @@
+function print_err(err, dom) {
+    dom.innerHTML = `<meta charset="utf-8">
+<style>
+    .error {
+        width: 100%;
+        border-style: dashed;
+        border-color: red;
+        border-radius: 5px;
+        color: red;
+    }
+    .error>h3, .error>p{
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+</style>
+<div class="error">
+    <h3>报错了!!</h3>
+    <p>` + err + `</p>
+</div>`
+}
+
 function vqq() {
     var vqqs = document.getElementsByTagName('vqq');
     for (var i = 0; i < videos.length; i++) {
