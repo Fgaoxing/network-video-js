@@ -21,7 +21,7 @@ function print_err(err, dom) {
 
 function vqq() {
     var vqqs = document.getElementsByTagName('vqq');
-    for (var i = 0; i < videos.length; i++) {
+    for (var i = 0; i < vqqs.length; i++) {
         var type = vqqs[i].getAttribute('type');
         var ID = vqqs[i].getAttribute('ID');
         var width = vqqs[i].getAttribute('width');
@@ -29,7 +29,7 @@ function vqq() {
         var vqqJson={
             player: '<iframe height=720 width=1280 frameborder="0" src="https://v.qq.com/txp/iframe/player.html?vid='+ID+'" allowFullScreen="true" width="`+width+`" height="`+height+`"></iframe>',
         }
-        videos[i].innerHTML = vqqJson[type];
+        vqqs[i].innerHTML = vqqJson[type];
     }
 }
 
@@ -51,13 +51,15 @@ function bili() {
                     } else if (bilis[i].getAttribute('cid')) {
                         bilis[i].innerHTML = `<iframe src="//player.bilibili.com/player.html?cid=` + bilis[i].getAttribute('cid') + `" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" high_quality="1" danmaku="1" width="`+width+`" height="`+height+`"> </iframe>`
                     } else if (bilis[i].getAttribute('url')) {
-                            if (bilis[i].getAttribute('url').indexOf('BV')<=0) {
-                                bilis[i].setAttribute('bv','BV'+bilis[i].getAttribute('url').split('?')[0].split('BV')[1]);
-                                BiliJson[type].js()
-                            } else {
-                                bilis[i].setAttribute('av','av'+bilis[i].getAttribute('url').split('?')[0].split('av')[1]);
-                                BiliJson[type].js()
-                            }
+                        if (bilis[i].getAttribute('url').indexOf('BV')>=0) {
+                            bilis[i].setAttribute('bv','BV'+bilis[i].getAttribute('url').split('?')[0].split('BV')[1]);
+                            BiliJson[type].js()
+                        } else if (bilis[i].getAttribute('url').indexOf('av')>=0) {
+                            bilis[i].setAttribute('av','av'+bilis[i].getAttribute('url').split('?')[0].split('av')[1]);
+                            BiliJson[type].js()
+                        } else {
+                            print_err('url不包含BV或aid', bilis[i]);
+                        }
                     } else {
                         print_err('你需要一个参数，av、bv或cid', bilis[i]);
                     }
